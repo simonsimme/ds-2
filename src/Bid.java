@@ -7,6 +7,14 @@ public class Bid {
 		this.bid = bid;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+
+	public int getBid() {
+		return this.bid;
+	}
+
 	public int hashCode() {
 		return 1 + 23*bid + 31*name.hashCode();
 	}
@@ -14,15 +22,14 @@ public class Bid {
 	public boolean equals(Object obj){
 		if (obj == null || !(obj instanceof Bid)) return false;
 
-		Bid bid = (Bid) obj;
-
-		// TODO: compare the objects
-		throw new UnsupportedOperationException();
+		Bid other = (Bid) obj;
+		return this.bid == other.getBid() && this.name.equals(other.name);
 	}
-	
+
+	@Override
 	public String toString(){
-		// TODO: return a description of the bid
-		throw new UnsupportedOperationException();
+		/*// TODO: return a description of the bid DONE
+		throw new UnsupportedOperationException();*/
+		return getName() + " " + getBid();
 	}
 }
-
