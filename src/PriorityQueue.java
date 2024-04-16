@@ -69,7 +69,22 @@ public class PriorityQueue<E> {
 	// siftUp(index) fixes the invariant if the element at 'index' may
 	// be less than its parent, but all other elements are correct.
 	private void siftUp(int index) {
-		throw new UnsupportedOperationException();
+		E value = heap.get(index);
+
+		while (index > 0) {
+			int parentIndex = (index - 1) / 2;
+			E parentValue = heap.get(parentIndex);
+
+			if (comparator.compare(value, parentValue) < 0) {
+				heap.set(index, parentValue);
+				index = parentIndex;
+			} else {
+				break;
+			}
+		}
+		heap.set(index, value);
+
+		//throw new UnsupportedOperationException();
 	}
      
 	// Sifts a node down.
