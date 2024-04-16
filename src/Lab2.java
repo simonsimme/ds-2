@@ -122,12 +122,19 @@ public class Lab2 {
 		sb.append("Order book:\n");
 
 		sb.append("Sellers: ");
-		// TODO: print remaining sellers.
-		//       can remove from priority queue until it is empty.
+		// TODO: print remaining sellers. DONE
+		//
+		while (sellOffers.size() > 0) {
+			sb.append(sellOffers.minimum().toString());
+			if (sellOffers.size() > 1) {
+				sb.append(", ");
+			}
+			sellOffers.deleteMinimum();
+		}
 
 		sb.append("Buyers: ");
 		// TODO: print remaining buyers
-		//       can remove from priority queue until it is empty.
+		//
 
 		return sb.toString();
 	}
