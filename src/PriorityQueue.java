@@ -17,7 +17,32 @@ public class PriorityQueue<E> {
 	// Adds an item to the priority queue.
 	public void add(E x)
 	{
-		throw new UnsupportedOperationException();
+		heap.add(x);
+		int index = heap.size();
+		while (true)
+		{
+			E parent = heap.get(parent(index));
+				if((int) parent > (int) x){
+					siftUp(index);
+					index = heap.indexOf(x);
+				}else
+				{
+					break;
+				}
+		}
+
+	}
+
+	public java.util.ArrayList<E> getHeap() {
+		return heap;
+	}
+
+
+
+
+
+	public void replaceAtIndex(int index, E i) {
+		heap.set(index, i);
 	}
 
 	// Returns the smallest item in the priority queue.
