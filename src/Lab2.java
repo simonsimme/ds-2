@@ -89,6 +89,8 @@ public class Lab2 {
 			// If queues not empty and transaction possible
 			while (!buyQueue.getHeap().isEmpty() && !sellQueue.getHeap().isEmpty()
 					&& buyQueue.minimum().getBid() >= sellQueue.minimum().getBid()) {
+
+
 				String buyer = buyQueue.minimum().getName();
 				String seller = sellQueue.minimum().getName();
 				int soldFor = sellQueue.minimum().getBid();
