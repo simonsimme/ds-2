@@ -2,9 +2,9 @@ import java.util.*;
 
 // A priority queue.
 public class PriorityQueue<E> {
-	private ArrayList<E> heap = new ArrayList<E>();
-	private HashMap<Integer, E> map = new HashMap<>();
-	private Comparator<E> comparator;
+	private ArrayList<E> heap = new ArrayList<E>(); // Arraylist of elements
+	private HashMap<Integer, E> map = new HashMap<>(); //Map <position, item> for efficency when searching through the heap
+	private Comparator<E> comparator; // the comparetor
 
 	public PriorityQueue(Comparator<E> comparator) {
 		this.comparator = comparator;
@@ -12,7 +12,7 @@ public class PriorityQueue<E> {
 
 	// Returns the size of the priority queue.
 	public int size() {
-		return heap.size();
+		return map.size();
 	}
 
 	// Add element to heap
@@ -27,7 +27,14 @@ public class PriorityQueue<E> {
 	public java.util.ArrayList<E> getHeap() {
 		return heap;
 	}
-
+	public E getElementOfIndex(int index)
+	{
+	return map.get(index);
+	}
+	public boolean isEmpty()
+	{
+		return map.size() == 0;
+	}
 
 	public void replaceAtIndex(int index, E i) {
 		if (index < 0 || index >= map.size()) return; // check valid index

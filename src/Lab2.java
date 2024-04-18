@@ -5,6 +5,7 @@ import java.util.*;
 public class Lab2 {
 	public static String pureMain(String[] commands) {
 		// TODO: declaration of two priority queues DONE
+		// Our two Queues for the stock
 		PriorityQueue<Bid> buyQueue = new PriorityQueue<>(new DescendingBidComparator());
 		PriorityQueue<Bid> sellQueue = new PriorityQueue<>(new AscendingBidComparator());
 
@@ -29,6 +30,8 @@ public class Lab2 {
 				throw new RuntimeException(
 						"line " + line_no + ": invalid price");
 			}
+
+
 			if( action.equals("K") ) {
 				// TODO: add new buy bid DONE
 				buyQueue.add(new Bid(name, price));
@@ -37,10 +40,12 @@ public class Lab2 {
 				// TODO: add new sell bid DONE
 
 			} else if( action.equals("NK") ){
+				//for changing the initial price, we search through the map to find the bid which match with name and price
+				// , then we change the price to the new value
 				int newPrice = Integer.parseInt(parts[3]);
 				Bid temp = new Bid(name, price);
 				for (int i = 0; i < buyQueue.size(); i++) {
-					if(buyQueue.getHeap().get(i).equals(temp))
+					if(buyQueue.getElementOfIndex(i).equals(temp))
 					{
 						try
 						{
@@ -52,12 +57,14 @@ public class Lab2 {
 						}
 					}
 				}
-				// TODO: update existing buy bid. use parts[3].
+				// TODO: update existing buy bid. use parts[3]. DONE
 			} else if( action.equals("NS") ){
+				//for changing the initial price, we search through the map to find the bid which match with name and price
+				// , then we change the price to the new value
 				int newPrice = Integer.parseInt(parts[3]);
 				Bid temp = new Bid(name, price);
 				for (int i = 0; i < sellQueue.size(); i++) {
-					if(sellQueue.getHeap().get(i).equals(temp))
+					if(sellQueue.getElementOfIndex(i).equals(temp))
 					{
 						try
 						{
@@ -69,7 +76,7 @@ public class Lab2 {
 						}
 					}
 				}
-				// TODO: update existing sell bid. use parts[3].
+				// TODO: update existing sell bid. use parts[3]. DONE
 			} else {
 				throw new RuntimeException(
 						"line " + line_no + ": invalid action");
@@ -77,7 +84,7 @@ public class Lab2 {
 
 			if( buyQueue.size() == 0 || sellQueue.size() == 0 ) continue;
 
-			// TODO:
+			// TODO: DONE
 			// compare the bids of highest priority from each of
 			// each priority queues.
 			// if the lowest seller price is lower than or equal to
@@ -86,10 +93,9 @@ public class Lab2 {
 			// transaction to the output.
 
 
-			// If queues not empty and transaction possible
-			while (!buyQueue.getHeap().isEmpty() && !sellQueue.getHeap().isEmpty()
+			// If queues not empty and transaction possible, prints the deal, then deletes both bids of the queues
+			while (!buyQueue.isEmpty() && !sellQueue.isEmpty()
 					&& buyQueue.minimum().getBid() >= sellQueue.minimum().getBid()) {
-
 
 				String buyer = buyQueue.minimum().getName();
 				String seller = sellQueue.minimum().getName();
@@ -105,7 +111,7 @@ public class Lab2 {
 
 		sb.append("Sellers: ");
 		// TODO: print remaining sellers. DONE
-		//
+		// here we print all the sellers left
 		while (sellQueue.size() > 0) {
 			sb.append(sellQueue.minimum().toString());
 			if (sellQueue.size() > 1) {
@@ -117,7 +123,7 @@ public class Lab2 {
 
 		sb.append("Buyers: ");
 		// TODO: print remaining buyers
-		//
+		// here we print all the buyers left
 		while (buyQueue.size() > 0) {
 			sb.append(buyQueue.minimum().toString());
 			if (buyQueue.size() > 1) {
@@ -128,6 +134,8 @@ public class Lab2 {
 
 		return sb.toString();
 	}
+
+	//method that prints when a purchase has been made
 	private static void printPurchase(String name1, String name2, int price){
 		System.out.println(name1 + " buys from " + name2 + " for " + price);
 	}
@@ -142,10 +150,8 @@ public class Lab2 {
 
 		List<String> lines = new LinkedList<String>();
 		while(true){
-			//System.out.println("here");
-
 			String line = actions.readLine();
-			if( line == null || line.equals("break"))break;
+			if( line == null)break;
 			lines.add(line);
 		}
 		actions.close();
