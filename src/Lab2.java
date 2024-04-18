@@ -5,19 +5,9 @@ import java.util.*;
 public class Lab2 {
 	public static String pureMain(String[] commands) {
 		// TODO: declaration of two priority queues DONE
-		PriorityQueue<Integer> buyOffers = new PriorityQueue<>(new Comparator<Integer>() {
-			public int compare(Integer i1, Integer i2) {
-				return i2 - i1;
-			}});
-		PriorityQueue<Integer> sellOffers = new PriorityQueue<>(new Comparator<Integer>() {
-			public int compare(Integer i1, Integer i2) {
-				return i2 - i1;
-			}});
+		PriorityQueue<Bid> buyQueue = new PriorityQueue<>(new DescendingBidComparator());
+		PriorityQueue<Bid> sellQueue = new PriorityQueue<>(new AscendingBidComparator());
 
-		PriorityQueue<Bid> buyerQueue = new PriorityQueue<>(new AscendingBidComparator());
-		PriorityQueue<Bid> sellerQueue = new PriorityQueue<>(new DescendingBidComparator());
-
-		ArrayList<Touple<String, Integer>> nameList = new ArrayList<>();
 
 		StringBuilder sb = new StringBuilder();
 
@@ -39,36 +29,40 @@ public class Lab2 {
 				throw new RuntimeException(
 						"line " + line_no + ": invalid price");
 			}
-
-			nameList.add(new Touple<>(name, price));
-
 			if( action.equals("K") ) {
 				// TODO: add new buy bid DONE
-				buyOffers.add(price);
+				buyQueue.add(new Bid(name, price));
 			} else if( action.equals("S") ) {
-				sellOffers.add(price);
+				sellQueue.add(new Bid(name, price));
 				// TODO: add new sell bid DONE
+
 			} else if( action.equals("NK") ){
-				for (int i = 0; i < buyOffers.size(); i++) {
-					if(buyOffers.getHeap().get(i).equals(price))
+				int newPrice = Integer.parseInt(parts[3]);
+				Bid temp = new Bid(name, price);
+				for (int i = 0; i < buyQueue.size(); i++) {
+					if(buyQueue.getHeap().get(i).equals(temp))
 					{
 						try
 						{
-							buyOffers.replaceAtIndex(i, Integer.parseInt(parts[3]));
+							Bid updatedBid = new Bid(name,newPrice);
+							buyQueue.replaceAtIndex(i, updatedBid);
 						}catch (NumberFormatException e){
 							throw new RuntimeException(
 									"line " + line_no + ": invalid changing price");
 						}
 					}
-				} // bruh hur uploadar man till gitt, eller kopiar du till din?
-				// TODO: update existing buy bid. use parts[3]. DONE
+				}
+				// TODO: update existing buy bid. use parts[3].
 			} else if( action.equals("NS") ){
-				for (int i = 0; i < sellOffers.size(); i++) {
-					if(sellOffers.getHeap().get(i).equals(price))
+				int newPrice = Integer.parseInt(parts[3]);
+				Bid temp = new Bid(name, price);
+				for (int i = 0; i < sellQueue.size(); i++) {
+					if(sellQueue.getHeap().get(i).equals(temp))
 					{
 						try
 						{
-							sellOffers.replaceAtIndex(i, Integer.parseInt(parts[3]));
+							Bid updatedbid = new Bid(name, newPrice);
+							sellQueue.replaceAtIndex(i, updatedbid);
 						}catch (NumberFormatException e){
 							throw new RuntimeException(
 									"line " + line_no + ": invalid changing price");
@@ -81,9 +75,9 @@ public class Lab2 {
 						"line " + line_no + ": invalid action");
 			}
 
-			if( buyOffers.size() == 0 || sellOffers.size() == 0 )continue;
+			if( buyQueue.size() == 0 || sellQueue.size() == 0 ) continue;
 
-			// TODO: Done
+			// TODO:
 			// compare the bids of highest priority from each of
 			// each priority queues.
 			// if the lowest seller price is lower than or equal to
@@ -91,31 +85,19 @@ public class Lab2 {
 			// each priority queue and add a description of the
 			// transaction to the output.
 
-			while (buyOffers.minimum() >= sellOffers.minimum())
-			{
-				String buyName = new String();
-				int buyerIndex = -1;
-				for (int i = 0; i < nameList.size(); i++) {
-					if(nameList.get(i).getSecond().equals(buyOffers.minimum()))
-					{
-						buyName = nameList.get(i).getFirst();
-						buyerIndex=i;
-					}
-				}
-				String sellName = new String();
-				int sellerIndex = -1;
-				for (int i = 0; i < nameList.size(); i++) {
-					if(nameList.get(i).getSecond().equals(sellOffers.minimum()))
-					{
-						sellName = nameList.get(i).getFirst();
-						sellerIndex =i;
-					}
-				}
-				printPurchase(buyName, sellName, sellOffers.minimum());
-				buyOffers.deleteMinimum();
-				sellOffers.deleteMinimum();
-				nameList.remove(buyerIndex);
-				nameList.remove(sellerIndex);
+
+			// If queues not empty and transaction possible
+			while (!buyQueue.getHeap().isEmpty() && !sellQueue.getHeap().isEmpty()
+					&& buyQueue.minimum().getBid() >= sellQueue.minimum().getBid()) {
+
+
+				String buyer = buyQueue.minimum().getName();
+				String seller = sellQueue.minimum().getName();
+				int soldFor = sellQueue.minimum().getBid();
+
+				printPurchase(buyer, seller, soldFor);
+				buyQueue.deleteMinimum();
+				sellQueue.deleteMinimum();
 			}
 		}
 
@@ -124,17 +106,25 @@ public class Lab2 {
 		sb.append("Sellers: ");
 		// TODO: print remaining sellers. DONE
 		//
-		while (sellOffers.size() > 0) {
-			sb.append(sellOffers.minimum().toString());
-			if (sellOffers.size() > 1) {
+		while (sellQueue.size() > 0) {
+			sb.append(sellQueue.minimum().toString());
+			if (sellQueue.size() > 1) {
 				sb.append(", ");
 			}
-			sellOffers.deleteMinimum();
+			sellQueue.deleteMinimum();
 		}
+
 
 		sb.append("Buyers: ");
 		// TODO: print remaining buyers
 		//
+		while (buyQueue.size() > 0) {
+			sb.append(buyQueue.minimum().toString());
+			if (buyQueue.size() > 1) {
+				sb.append(", ");
+			}
+			buyQueue.deleteMinimum();
+		}
 
 		return sb.toString();
 	}
@@ -152,7 +142,7 @@ public class Lab2 {
 
 		List<String> lines = new LinkedList<String>();
 		while(true){
-			System.out.println("here");
+			//System.out.println("here");
 
 			String line = actions.readLine();
 			if( line == null || line.equals("break"))break;
