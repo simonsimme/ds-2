@@ -32,6 +32,7 @@ public class PriorityQueue<E> {
 	{
 	return map.get(index);
 	}
+	// compares the size of the map collection to zero
 	public boolean isEmpty()
 	{
 		return map.size() == 0;
@@ -95,7 +96,7 @@ public class PriorityQueue<E> {
 		}
 		heap.set(index, value);
 		map.put(index, value);
-		//throw new UnsupportedOperationException();
+
 	}
 
 	// Sifts a node down.
