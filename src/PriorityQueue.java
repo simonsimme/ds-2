@@ -16,7 +16,7 @@ public class PriorityQueue<E> {
 	}
 
 	// Add element to heap
-	public void add(E x) {
+	public void add(E x) { // Complexity : O()
 		heap.add(x);  // Add element to the end
 		int index = heap.size() - 1;  // Get the correct index of the newly added element
 		map.put(index, x);
@@ -27,7 +27,8 @@ public class PriorityQueue<E> {
 	public java.util.ArrayList<E> getHeap() {
 		return heap;
 	}
-	public E getElementOfIndex(int index)
+	//gets the element of index
+	public E getElementOfIndex(int index) // Complexity : O()
 	{
 	return map.get(index);
 	}
@@ -36,7 +37,8 @@ public class PriorityQueue<E> {
 		return map.size() == 0;
 	}
 
-	public void replaceAtIndex(int index, E i) {
+	//replace the changed price then shifts it into place
+	public void replaceAtIndex(int index, E i) { // Complexity :
 		if (index < 0 || index >= map.size()) return; // check valid index
 
 		E oldvalue = map.get(index);
@@ -54,7 +56,7 @@ public class PriorityQueue<E> {
 
 	// Returns the smallest item in the priority queue.
 	// Throws NoSuchElementException if empty.
-	public E minimum() {
+	public E minimum() {// Complexity : O()
 		if (size() == 0)
 			throw new NoSuchElementException();
 
@@ -63,7 +65,7 @@ public class PriorityQueue<E> {
 
 	// Removes the smallest item in the priority queue.
 	// Throws NoSuchElementException if empty.h
-	public void deleteMinimum() {
+	public void deleteMinimum() {// Complexity : O()
 		if (size() == 0)
 			throw new NoSuchElementException();
 
@@ -76,7 +78,7 @@ public class PriorityQueue<E> {
 	// Sifts a node up.
 	// siftUp(index) fixes the invariant if the element at 'index' may
 	// be less than its parent, but all other elements are correct.
-	private void siftUp(int index) {
+	private void siftUp(int index) {// Complexity :
 		E value = map.get(index);
 
 		while (index > 0) {
@@ -99,7 +101,7 @@ public class PriorityQueue<E> {
 	// Sifts a node down.
 	// siftDown(index) fixes the invariant if the element at 'index' may
 	// be greater than its children, but all other elements are correct.
-	private void siftDown(int index) {
+	private void siftDown(int index) {// Complexity :
 		E value = map.get(index);
 
 		// Stop when the node is a leaf.
