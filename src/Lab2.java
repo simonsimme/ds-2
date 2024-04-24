@@ -96,7 +96,7 @@ public class Lab2 {
 			// transaction to the output.
 
 
-			// If queues not empty and transaction possible, prints the deal, then deletes both bids of the queues
+			// If queues not empty and transaction possible, prints the deal, then deletes minimum bids of the queues
 			while (!buyQueue.isEmpty() && !sellQueue.isEmpty()
 					&& buyQueue.minimum().getBid() >= sellQueue.minimum().getBid()) {
 

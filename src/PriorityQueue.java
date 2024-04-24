@@ -28,7 +28,7 @@ public class PriorityQueue<E> {
 		return heap;
 	}
 	//gets the element of index
-	public E getElementOfIndex(int index) // Complexity : O()
+	public E getElementOfIndex(int index) // Complexity : O(1) because usage of map
 	{
 	return map.get(index);
 	}
@@ -39,7 +39,7 @@ public class PriorityQueue<E> {
 	}
 
 	//replace the changed price then shifts it into place
-	public void replaceAtIndex(int index, E i) { // Complexity :
+	public void replaceAtIndex(int index, E i) { // Complexity : O(1) because usage of map
 		if (index < 0 || index >= map.size()) return; // check valid index
 
 		E oldvalue = map.get(index);
@@ -57,7 +57,7 @@ public class PriorityQueue<E> {
 
 	// Returns the smallest item in the priority queue.
 	// Throws NoSuchElementException if empty.
-	public E minimum() {// Complexity : O()
+	public E minimum() {// Complexity : O(1)
 		if (size() == 0)
 			throw new NoSuchElementException();
 
@@ -102,7 +102,7 @@ public class PriorityQueue<E> {
 	// Sifts a node down.
 	// siftDown(index) fixes the invariant if the element at 'index' may
 	// be greater than its children, but all other elements are correct.
-	private void siftDown(int index) {// Complexity : O()
+	private void siftDown(int index) {// Complexity : O(n) because of "traversing" each leaf/node
 		E value = map.get(index);
 
 		// Stop when the node is a leaf.
