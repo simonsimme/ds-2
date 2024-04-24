@@ -70,10 +70,15 @@ public class PriorityQueue<E> {
 		if (size() == 0)
 			throw new NoSuchElementException();
 
-		heap.set(0, map.get(map.size()-1));
+		E lastItem = map.get(map.size()-1);
 		heap.remove(map.size()-1);
-		map.remove(map.get(0));
-		if (map.size() > 0) siftDown(0);
+		map.remove(map.size()-1);
+
+		if (map.size() > 0) {
+			heap.set(0, lastItem);
+			map.put(0, lastItem);
+			siftDown(0);
+		}
 	}
 
 	// Sifts a node up.
