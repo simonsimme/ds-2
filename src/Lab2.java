@@ -5,7 +5,10 @@ import java.util.*;
 public class Lab2 {
 	public static String pureMain(String[] commands) {
 		// TODO: declaration of two priority queues DONE
-		// Our two Queues for the stock
+		// Our two Queues for the stock,
+		// DescendingBidComparator makes the comparator have the highest element first
+		// AscendingBidComparator makes the comparator have the lowest element first
+		//Bid stores the name and price of the stock bid
 		PriorityQueue<Bid> buyQueue = new PriorityQueue<>(new DescendingBidComparator());
 		PriorityQueue<Bid> sellQueue = new PriorityQueue<>(new AscendingBidComparator());
 

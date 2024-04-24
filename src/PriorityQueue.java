@@ -16,11 +16,11 @@ public class PriorityQueue<E> {
 	}
 
 	// Add element to heap
-	public void add(E x) { // Complexity : O()
+	public void add(E x) { // Complexity : O(log n) // its only siftup that matters in complexity the other operations are O(1)
 		heap.add(x);  // Add element to the end
 		int index = heap.size() - 1;  // Get the correct index of the newly added element
 		map.put(index, x);
-		siftUp(index);  // Correctly sift it up to maintain heap property
+		siftUp(index);  // Correctly sift it up to maintain heap property // O(log n)
 	}
 
 
@@ -49,9 +49,9 @@ public class PriorityQueue<E> {
 
 		//check sift up || down
 		if (comparator.compare(i, oldvalue) > 0) {
-			siftDown(index);
+			siftDown(index); // O(log n)
 		} else {
-			siftUp(index);
+			siftUp(index); // O(log n)
 		}
 	}
 
@@ -66,7 +66,7 @@ public class PriorityQueue<E> {
 
 	// Removes the smallest item in the priority queue.
 	// Throws NoSuchElementException if empty.h
-	public void deleteMinimum() {// Complexity : O()
+	public void deleteMinimum() {// Complexity : O(1)
 		if (size() == 0)
 			throw new NoSuchElementException();
 
@@ -79,7 +79,7 @@ public class PriorityQueue<E> {
 	// Sifts a node up.
 	// siftUp(index) fixes the invariant if the element at 'index' may
 	// be less than its parent, but all other elements are correct.
-	private void siftUp(int index) {// Complexity :
+	private void siftUp(int index) {// Complexity : // O(log n) because we only check one "side" of the tree
 		E value = map.get(index);
 
 		while (index > 0) {
